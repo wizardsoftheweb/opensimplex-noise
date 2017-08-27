@@ -4,7 +4,8 @@
   "description": "JS OpenSimplex Noise Generator",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "author": "CJ Harries <cj@wizardsoftheweb.pro> (https://wizardsoftheweb.pro/)",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "@types/sinon": "^2.3.3",
     "@types/winston": "^2.3.5",
     "chai": "^4.1.1",
+    "coveralls": "^2.13.1",
     "cross-env": "^5.0.5",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
