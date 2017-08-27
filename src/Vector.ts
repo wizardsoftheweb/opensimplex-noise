@@ -1,11 +1,11 @@
 import {ICoordinate} from "./interfaces";
 
 export class Vector {
-    private origin: ICoordinate;
-
+    /** @type {ICoordinate} [description] */
+    private tuple: ICoordinate;
 
     /**
-     * Vector constructor. Assigns the origin from either an `ICoordinate` or
+     * Vector constructor. Assigns the tuple from either an `ICoordinate` or
      * the spread of the arguments of the form `(x, y, z?, w?)`. Missing values
      * are assigned zero to facilitate faster dot products.
      *
@@ -22,14 +22,14 @@ export class Vector {
      */
     constructor(x: ICoordinate | number, ...others: number[]) {
         if (typeof x === "object") {
-            this.origin = {
+            this.tuple = {
                 w: x.w /* istanbul ignore next */ || 0,
                 x: x.x /* istanbul ignore next */ || 0,
                 y: x.y /* istanbul ignore next */ || 0,
                 z: x.z /* istanbul ignore next */ || 0,
             };
         } else {
-            this.origin = {
+            this.tuple = {
                 w: others[2] /* istanbul ignore next */ || 0,
                 x,
                 y: others[0] /* istanbul ignore next */ || 0,

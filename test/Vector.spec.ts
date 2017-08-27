@@ -27,22 +27,22 @@ describe("Vector", (): void => {
     const fourDOut: ICoordinate = fourDIn;
 
     describe("constructor", (): void => {
-        it("should assign origin from an array", (): any => {
+        it("should assign tuple from an array", (): any => {
             vector = new Vector(4, 2);
-            (vector as any).origin.should.deep.equal(twoDOut);
+            (vector as any).tuple.should.deep.equal(twoDOut);
             vector = new Vector(4, 2, 4);
-            (vector as any).origin.should.deep.equal(threeDOut);
+            (vector as any).tuple.should.deep.equal(threeDOut);
             vector = new Vector(4, 2, 4, 7);
-            (vector as any).origin.should.deep.equal(fourDOut);
+            (vector as any).tuple.should.deep.equal(fourDOut);
         });
 
-        it("should assign origin from {x, y, z, w} objects", (): any => {
+        it("should assign tuple from {x, y, z, w} objects", (): any => {
             vector = new Vector(twoDIn);
-            (vector as any).origin.should.deep.equal(twoDOut);
+            (vector as any).tuple.should.deep.equal(twoDOut);
             vector = new Vector(threeDIn);
-            (vector as any).origin.should.deep.equal(threeDOut);
+            (vector as any).tuple.should.deep.equal(threeDOut);
             vector = new Vector(fourDIn);
-            (vector as any).origin.should.deep.equal(fourDOut);
+            (vector as any).tuple.should.deep.equal(fourDOut);
         });
     });
 });
