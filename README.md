@@ -26,7 +26,7 @@ Once all of these are finished, I'll release `v1`. Until then, `v0` should be us
 | Progess | Feature |
 | ------: | ------- |
 |      2% | Port `OpenSimplexNoise.java` |
-|    100% | Build and document an implementation of `OpenSimplexNoise.java` |
+|    100% | Build and document an implementation of the LCG used in `OpenSimplexNoise.java` |
 |      0% | Publish package on `npm` |
 
 ### Eventual features
