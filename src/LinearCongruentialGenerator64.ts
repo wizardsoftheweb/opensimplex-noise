@@ -23,7 +23,7 @@ export class LinearCongruentialGenerator64 {
      * @return {LinearCongruentialGenerator64}
      * A generator using the Knuth constants
      */
-    public static knuthGenerator(): LinearCongruentialGenerator64 {
+    public static get knuthGenerator(): LinearCongruentialGenerator64 {
         return new LinearCongruentialGenerator64(
             bigInt("6364136223846793005"),
             bigInt("1442695040888963407"),
@@ -43,7 +43,7 @@ export class LinearCongruentialGenerator64 {
      */
     /* istanbul ignore next */
     public static openSimplexGenerator(): LinearCongruentialGenerator64 {
-        return LinearCongruentialGenerator64.knuthGenerator();
+        return LinearCongruentialGenerator64.knuthGenerator;
     }
 
     /** @type {bigInt.BigInteger} The generator's multiplier */
