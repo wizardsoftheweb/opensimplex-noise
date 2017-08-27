@@ -1,4 +1,4 @@
-export interface ICoordinate {
+export interface ICoordinateUpTo4d {
     x: number;
     y: number;
     z?: number;

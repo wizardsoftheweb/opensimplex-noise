@@ -10,39 +10,39 @@ const should = chai.should();
 /* tslint:disable-next-line:no-var-requires */
 // chai.use(require("chai-as-promised"));
 
-import {ICoordinate} from "../src/interfaces";
-import {Vector} from "../src/Vector";
+import {ICoordinateUpTo4d} from "../src/interfaces";
+import {VectorUpTo4d} from "../src/VectorUpTo4d";
 
-describe("Vector", (): void => {
-    let vector: Vector | null;
+describe("VectorUpTo4d", (): void => {
+    let vector: VectorUpTo4d | null;
 
-    const twoDIn: ICoordinate = {x: 4, y: 2};
-    const twoDOut: ICoordinate = twoDIn;
+    const twoDIn: ICoordinateUpTo4d = {x: 4, y: 2};
+    const twoDOut: ICoordinateUpTo4d = twoDIn;
     twoDOut.z = 0;
     twoDOut.w = 0;
-    const threeDIn: ICoordinate = {x: 4, y: 2, z: 4};
-    const threeDOut: ICoordinate = threeDIn;
+    const threeDIn: ICoordinateUpTo4d = {x: 4, y: 2, z: 4};
+    const threeDOut: ICoordinateUpTo4d = threeDIn;
     threeDOut.w = 0;
-    const fourDIn: ICoordinate = {x: 4, y: 2, z: 4, w: 7};
-    const fourDOut: ICoordinate = fourDIn;
+    const fourDIn: ICoordinateUpTo4d = {x: 4, y: 2, z: 4, w: 7};
+    const fourDOut: ICoordinateUpTo4d = fourDIn;
 
     describe("constructor", (): void => {
-        it("should assign tuple from an array", (): any => {
-            vector = new Vector(4, 2);
-            vector.tuple.should.deep.equal(twoDOut);
-            vector = new Vector(4, 2, 4);
-            vector.tuple.should.deep.equal(threeDOut);
-            vector = new Vector(4, 2, 4, 7);
-            vector.tuple.should.deep.equal(fourDOut);
+        it("should assign coordinates from an array", (): any => {
+            vector = new VectorUpTo4d(4, 2);
+            vector.should.deep.equal(twoDOut);
+            vector = new VectorUpTo4d(4, 2, 4);
+            vector.should.deep.equal(threeDOut);
+            vector = new VectorUpTo4d(4, 2, 4, 7);
+            vector.should.deep.equal(fourDOut);
         });
 
-        it("should assign tuple from {x, y, z, w} objects", (): any => {
-            vector = new Vector(twoDIn);
-            vector.tuple.should.deep.equal(twoDOut);
-            vector = new Vector(threeDIn);
-            vector.tuple.should.deep.equal(threeDOut);
-            vector = new Vector(fourDIn);
-            vector.tuple.should.deep.equal(fourDOut);
+        it("should assign coordinates from {x, y, z, w} objects", (): any => {
+            vector = new VectorUpTo4d(twoDIn);
+            vector.should.deep.equal(twoDOut);
+            vector = new VectorUpTo4d(threeDIn);
+            vector.should.deep.equal(threeDOut);
+            vector = new VectorUpTo4d(fourDIn);
+            vector.should.deep.equal(fourDOut);
         });
     });
 });

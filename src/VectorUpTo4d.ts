@@ -1,8 +1,10 @@
-import {ICoordinate} from "./interfaces";
+import { ICoordinateUpTo4d } from "./interfaces";
 
-export class Vector {
-    /** @type {ICoordinate} [description] */
-    public tuple: ICoordinate;
+export class VectorUpTo4d implements ICoordinateUpTo4d {
+    public x: number;
+    public y: number;
+    public z: number;
+    public w: number;
 
     /**
      * Vector constructor. Assigns the tuple from either an `ICoordinate` or
@@ -20,22 +22,17 @@ export class Vector {
      * If the first argument is not an `ICoordinate, then the rest of the
      * arguments are the remaining values.
      */
-    constructor(x: ICoordinate | number, ...others: number[]) {
+    constructor(x: ICoordinateUpTo4d | number, ...others: number[]) {
         if (typeof x === "object") {
-            this.tuple = {
-                w: x.w /* istanbul ignore next */ || 0,
-                x: x.x /* istanbul ignore next */ || 0,
-                y: x.y /* istanbul ignore next */ || 0,
-                z: x.z /* istanbul ignore next */ || 0,
-            };
+            this.w = x.w /* istanbul ignore next */ || 0;
+            this.x = x.x /* istanbul ignore next */ || 0;
+            this.y = x.y /* istanbul ignore next */ || 0;
+            this.z = x.z /* istanbul ignore next */ || 0;
         } else {
-            this.tuple = {
-                w: others[2] /* istanbul ignore next */ || 0,
-                x,
-                y: others[0] /* istanbul ignore next */ || 0,
-                z: others[1] /* istanbul ignore next */ || 0,
-            };
+            this.w = others[2] /* istanbul ignore next */ || 0;
+            this.x = x;
+            this.y = others[0] /* istanbul ignore next */ || 0;
+            this.z = others[1] /* istanbul ignore next */ || 0;
         }
     }
-
 }
