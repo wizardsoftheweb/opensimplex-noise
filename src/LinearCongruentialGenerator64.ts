@@ -10,7 +10,7 @@ import * as bigInt from "big-integer";
  */
 export class LinearCongruentialGenerator64 {
     /** Save 2^64 to reduce computation */
-    public static TWO_POW_64: bigInt.BigInteger = bigInt(2).pow(64);
+    public static TWO_POW_64: bigInt.BigInteger = (bigInt(2).pow(64));
     /**
      * Returns an LCG using constants from Donald Knuth's MMIX. These constants
      * come directly from
@@ -68,7 +68,7 @@ export class LinearCongruentialGenerator64 {
     /**
      * Given a starting value, returns the next value in the sequence:
      * ```
-     * next value = ((seed * multiplier) + addendum) mod 2^64
+     * next = ((seed * multiplier) + addendum) mod 2^64
      * ```
      *
      * @param  {bigInt.BigNumber}  seed
@@ -76,7 +76,7 @@ export class LinearCongruentialGenerator64 {
      * @return {bigInt.BigInteger}
      * The next value in the sequence
      */
-    public permute(seed: bigInt.BigNumber): bigInt.BigInteger {
+    public next(seed: bigInt.BigNumber): bigInt.BigInteger {
         // I tried to make order of operations more clear.
         return (
             (

@@ -48,16 +48,16 @@ describe("LinearCongruentialGenerator64", (): void => {
         });
     });
 
-    describe("permute", (): void => {
+    describe("next", (): void => {
         it("should return reasonable values for a small test set", (): void => {
             // Testing a PRNG seems weird. I used Wolfram Alpha to test a few
             // large primes because all I care is that it returns the proper
             // result. The math behind it is beyond the scope of this test.
             generator = LinearCongruentialGenerator64.knuthGenerator;
-            generator.permute(bigInt(0)).should.deep.equal(bigInt(knuthAddendum));
-            generator.permute(bigInt("12468166129849")).should.deep.equal(bigInt("2325538385882513620"));
-            generator.permute(bigInt("7290276569677")).should.deep.equal(bigInt("12338510360121572312"));
-            generator.permute(bigInt("15281039276543")).should.deep.equal(bigInt("7418825270924538914"));
+            generator.next(bigInt(0)).should.deep.equal(bigInt(knuthAddendum));
+            generator.next(bigInt("12468166129849")).should.deep.equal(bigInt("2325538385882513620"));
+            generator.next(bigInt("7290276569677")).should.deep.equal(bigInt("12338510360121572312"));
+            generator.next(bigInt("15281039276543")).should.deep.equal(bigInt("7418825270924538914"));
 
         });
     });
