@@ -2,7 +2,7 @@ import {ICoordinate} from "./interfaces";
 
 export class Vector {
     /** @type {ICoordinate} [description] */
-    private tuple: ICoordinate;
+    public tuple: ICoordinate;
 
     /**
      * Vector constructor. Assigns the tuple from either an `ICoordinate` or
