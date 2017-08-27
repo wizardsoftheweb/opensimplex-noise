@@ -27,5 +27,25 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*interfaces.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "json",
+      "html",
+      "text-summary"
+    ],
+    "all": true
   }
 }
