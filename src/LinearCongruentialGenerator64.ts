@@ -77,11 +77,10 @@ export class LinearCongruentialGenerator64 {
      * The next value in the sequence
      */
     public permute(seed: bigInt.BigNumber): bigInt.BigInteger {
-        seed = bigInt(seed as any);
         // I tried to make order of operations more clear.
         return (
             (
-                seed.times(this.multiplier)
+                bigInt(seed as any).times(this.multiplier)
             ).plus(this.addendum)
         ).mod(LinearCongruentialGenerator64.TWO_POW_64);
     }
