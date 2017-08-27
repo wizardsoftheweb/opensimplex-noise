@@ -35,4 +35,20 @@ export class VectorUpTo4d implements ICoordinateUpTo4d {
             this.z = others[1] /* istanbul ignore next */ || 0;
         }
     }
+
+    /**
+     * Returns the [dot product](https://en.wikipedia.org/wiki/Dot_product) of
+     * `this` and the input.
+     *
+     * @param  {VectorUpTo4d} vector
+     * The vector to perform the dot product against
+     * @return {number}
+     * The scalar return value of the dot product.
+     */
+    public dot(vector: VectorUpTo4d): number {
+        return this.x * vector.x
+            + this.y * vector.y
+            + this.z * vector.z
+            + this.w * vector.w;
+    }
 }
