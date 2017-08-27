@@ -1,7 +1,7 @@
 {
-  "name": "@wizardsoftheweb/simplex-noise",
-  "version": "0.0.0",
-  "description": "Yet another simplex noise implementation",
+  "name": "@wizardsoftheweb/opensimplex-noise",
+  "version": "0.1.0",
+  "description": "JS OpenSimplex Noise Generator",
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha"
