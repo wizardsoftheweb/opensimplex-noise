@@ -33,10 +33,15 @@ export class LinearCongruentialGenerator64 {
     /**
      * Convenience method to access whichever LCG is used by openSimplex.
      *
+     * The method is ignored in testing because that would require changing
+     * several files to update the generator. As each method is tested, there's
+     * no need to ensure (at least for now) that an arbitrary method is called.
+     *
      * @note Specific method change if implementation changes.
      * @return {LinearCongruentialGenerator64}
      * A generator using the constants from OpenSimplex
      */
+    /* istanbul ignore next */
     public static openSimplexGenerator(): LinearCongruentialGenerator64 {
         return LinearCongruentialGenerator64.knuthGenerator();
     }
