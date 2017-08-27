@@ -1,11 +1,26 @@
 # `@wizardsoftheweb/opensimplex-noise`
 
+[![Build Status](https://travis-ci.org/wizardsoftheweb/opensimplex-noise.svg?branch=dev)](https://travis-ci.org/wizardsoftheweb/opensimplex-noise)
+
 This is a fairly straight-forward implementation of Kurt Spencer's [OpenSimplex Noise](http://uniblock.tumblr.com/post/97868843242/noise) (original [Java implementation](https://gist.github.com/KdotJPG/b1270127455a94ac5d19)). I started this project intending to build a simplex noise generator but then I remembered that Ken Perlin is a patent troll.
 
 ## Important Notes
 
 * **The root LCG might require a license.** I did a bunch of research about this. Given that OpenSimplex actually had to created, I think it's important to maintain provenance. The constants used in OpenSimplex's [linear congruential generator](https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use) come from Donald Knuth's MMIX (although [searching "6364136223846793005l"](https://www.google.com/search?q=6364136223846793005l) yields Minecraft code and threads about OpenSimplex; the `long` suffix dramatically reduces the results). Given that it's on Wikipedia (and in Minecraft), I'm going to assume the numbers themselves are not licensed. If you're not comfortable making that assumption, I'll (eventually) add support to change the LCG (or you can make a PR with open source constants, which would be pretty neat).
 * Using a 64-bit LCG requires external libraries. I might look at 32-bit generator later.
+
+## Installation
+
+### Dev version
+This is just until it's published.
+
+```
+npm install --save git+https://github.com/wizardsoftheweb/opensimplex-noise
+```
+
+## Usage
+
+TODO: write documentation after the API is done
 
 ## Motivation
 
@@ -26,8 +41,11 @@ Once all of these are finished, I'll release `v1`. Until then, `v0` should be us
 | Progess | Feature |
 | ------: | ------- |
 |      2% | Port `OpenSimplexNoise.java` |
+|      4% | Break down `OpenSimplexNoise.java` into constituent tasks |
 |    100% | Build and document an implementation of the LCG used in `OpenSimplexNoise.java` |
 |      0% | Publish package on `npm` |
+|      0% | Switch defaults (branch, badges) from `master` to `dev` |
+|      0% | Add fancy `README` TOC |
 
 ### Eventual features
 
