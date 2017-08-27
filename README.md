@@ -14,3 +14,28 @@ I wanted to build this myself before using libraries to get a better understandi
 However, simplex noise is under a pretty nasty patent. Like, really nasty. I don't support patenting algorithms. If the history of math has taught us anything, it's that someone smarter will come along and redo your work except better. For that reason, I decided to play with [OpenSimplex Noise](http://uniblock.tumblr.com/post/97868843242/noise), which does basically the same thing using a slightly different set of tools. It's slower, so I'll eventually add some benchmarks to illustrate that.
 
 I highly doubt this will see much production beyond a couple of hobby projects. I'm building it primarily to be able to debug other implementations when I break them.
+
+## Roadmap
+
+These percentages are pretty arbitrary. Today's 47% could be tomorrow's 90% or vice versa.
+
+### Main Features
+
+Once all of these are finished, I'll release `v1`. Until then, `v0` should be used with caution, because it's not stable.
+
+| Progess | Feature |
+| ------: | ------- |
+|      2% | Port `OpenSimplexNoise.java` |
+|    100% | Build and document an implementation of `OpenSimplexNoise.java` |
+|      0% | Publish package on `npm` |
+
+### Eventual features
+
+These are things I'd like to add, but probably won't be included in `v1`. If not, they'll most likely constitute one or more minor version increments.
+
+| Progess | Feature |
+| ------: | ------- |
+|      0% | Find FOSS linear congruential generator parameters. |
+|      0% | Benchmarks |
+|      0% | Break out LCG code into its own repo |
+|      0% | Implement [reverse LCG](https://stackoverflow.com/a/16630535) |
