@@ -4,16 +4,22 @@ import * as bigInt from "big-integer";
  * Very simple class to wrap a 64-bit
  * [LCG](https://en.wikipedia.org/wiki/Linear_congruential_generator) with
  * convenience methods for common generators.
+ *
  * @class LinearCongruentialGenerator64
  * @todo pull out as dependency?
  */
 export class LinearCongruentialGenerator64 {
+    /** Save 2^64 to reduce computation */
     public static TWO_POW_64: bigInt.BigInteger = bigInt(2).pow(64);
     /**
      * Returns an LCG using constants from Donald Knuth's MMIX. These constants
      * come directly from
      * [Wikipedia](https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use)
      * and are attributable to Donald Knuth.
+     *
+     * @note I'm not actually sure what the license on these numbers is. I've
+     * seen them in myriad repos all under completely different licenses, none
+     * of which acknowledged the source.
      * @return {LinearCongruentialGenerator64}
      * A generator using the Knuth constants
      */
@@ -59,6 +65,7 @@ export class LinearCongruentialGenerator64 {
      * ```
      * next value = ((seed * multiplier) + addendum) mod 2^64
      * ```
+     *
      * @param  {bigInt.BigNumber}  seed
      * The initial value
      * @return {bigInt.BigInteger}
