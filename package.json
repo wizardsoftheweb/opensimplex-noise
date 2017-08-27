@@ -1,0 +1,31 @@
+{
+  "name": "@wizardsoftheweb/simplex-noise",
+  "version": "0.0.0",
+  "description": "Yet another simplex noise implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test nyc mocha"
+  },
+  "author": "CJ Harries <cj@wizardsoftheweb.pro> (https://wizardsoftheweb.pro/)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.8",
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^8.0.25",
+    "@types/sinon": "^2.3.3",
+    "@types/winston": "^2.3.5",
+    "chai": "^4.1.1",
+    "cross-env": "^5.0.5",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
+    "sinon": "^3.2.1",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.7.0",
+    "typescript": "^2.4.2",
+    "winston": "^2.3.1"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0"
+  }
+}
