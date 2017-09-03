@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.8",
     "@types/chai": "^4.0.4",
+    "@types/long": "^3.0.32",
     "@types/mocha": "^2.2.42",
     "@types/node": "^8.0.25",
     "@types/sinon": "^2.3.3",
@@ -29,7 +30,8 @@
   },
   "dependencies": {
     "big-integer": "^1.6.24",
-    "bluebird": "^3.5.0"
+    "bluebird": "^3.5.0",
+    "long": "^3.2.0"
   },
   "nyc": {
     "include": [
