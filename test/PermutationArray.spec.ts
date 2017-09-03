@@ -150,4 +150,25 @@ describe("PermutationArray", (): void => {
 
         afterEach(simpleAfter);
     });
+
+    // describe("translatePrngModBase()", (): void => {
+    //     beforeEach((): void => {
+    //         simpleBefore();
+    //         assignPrng();
+    //     });
+
+    //     afterEach(simpleAfter);
+    // });
+
+    describe("translateTo3dValue()", (): void => {
+        beforeEach(simpleBefore);
+
+        it("should return the index of a 3D gradient", (): any => {
+            for (let index = 0; index < PermutationArray.NUMBER_OF_3D_GRADIENTS; index++) {
+                (permutation as any).translateTo3dValue(index).should.equal(index * 3);
+            }
+        });
+
+        afterEach(simpleAfter);
+    });
 });
