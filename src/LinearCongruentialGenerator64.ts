@@ -1,7 +1,7 @@
-import * as bigInt from "big-integer";
+import * as Long from "long";
 
 /**
- * Very simple class to wrap a 64-bit
+ * Very simple class to wrap a signed 64-bit
  * [LCG](https://en.wikipedia.org/wiki/Linear_congruential_generator) with
  * convenience methods for common generators.
  *
@@ -9,8 +9,6 @@ import * as bigInt from "big-integer";
  * @todo pull out as dependency?
  */
 export class LinearCongruentialGenerator64 {
-    /** Save 2^64 to reduce computation */
-    public static TWO_POW_64: bigInt.BigInteger = (bigInt(2).pow(64));
     /**
      * Returns an LCG using constants from Donald Knuth's MMIX. These constants
      * come directly from
@@ -25,8 +23,8 @@ export class LinearCongruentialGenerator64 {
      */
     public static get knuthGenerator(): LinearCongruentialGenerator64 {
         return new LinearCongruentialGenerator64(
-            bigInt("6364136223846793005"),
-            bigInt("1442695040888963407"),
+            Long.fromString("6364136223846793005"),
+            Long.fromString("1442695040888963407"),
         );
     }
 
@@ -46,24 +44,25 @@ export class LinearCongruentialGenerator64 {
         return LinearCongruentialGenerator64.knuthGenerator;
     }
 
-    /** @type {bigInt.BigInteger} The generator's multiplier */
-    private multiplier: bigInt.BigInteger;
-    /** @type {bigInt.BigInteger} The generator's addendum */
-    private addendum: bigInt.BigInteger;
+    /** @type {Long} The generator's multiplier */
+    private multiplier: Long;
+    /** @type {Long} The generator's addendum */
+    private addendum: Long;
 
     /**
      * Sets the necessary constants for the generator. Can accept `number`s,
-     * `string`s, or `BigInteger`s.
+     * `string`s, or `Long`s.
      *
-     * @param {bigInt.BigNumber} multiplier
+     * @param {Long | number | string} multiplier
      * The multiplier for the generator
-     * @param {bigInt.BigNumber} addendum
+     * @param {Long | number | string} addendum
      * The addendum for the generator
      */
-    constructor(multiplier: bigInt.BigNumber, addendum: bigInt.BigNumber) {
-        this.multiplier = bigInt(multiplier as any);
-        this.addendum = bigInt(addendum as any);
+    constructor(multiplier: Long | number | string, addendum: Long | number | string) {
+        this.multiplier = Long.fromValue(multiplier);
+        this.addendum = Long.fromValue(addendum);
     }
+
 
     /**
      * Given a starting value, returns the next value in the sequence:
@@ -71,17 +70,12 @@ export class LinearCongruentialGenerator64 {
      * next = ((seed * multiplier) + addendum) mod 2^64
      * ```
      *
-     * @param  {bigInt.BigNumber}  seed
+     * @param  {Long}  seed
      * The initial value
-     * @return {bigInt.BigInteger}
+     * @return {Long}
      * The next value in the sequence
      */
-    public next(seed: bigInt.BigNumber): bigInt.BigInteger {
-        // I tried to make order of operations more clear.
-        return (
-            (
-                bigInt(seed as any).times(this.multiplier)
-            ).plus(this.addendum)
-        ).mod(LinearCongruentialGenerator64.TWO_POW_64);
+    public next(seed: Long): Long {
+        return (seed.multiply(this.multiplier)).add(this.addendum);
     }
 }
