@@ -79,7 +79,7 @@ describe("SequenceFromLcg64", (): void => {
         it("should return the private initialValue", (): any => {
             sequence = new SequenceFromLcg64(longOne);
             sequence.step();
-            (sequence as any).seed.should.deep.equal(longOne);
+            sequence.seed.should.deep.equal(longOne);
         });
     });
 

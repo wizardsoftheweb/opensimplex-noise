@@ -13,7 +13,7 @@ export class SequenceFromLcg64 {
      */
     private generator: LinearCongruentialGenerator64 = LinearCongruentialGenerator64.knuthGenerator;
     /** @type {Long} The initial seed for verification purposes */
-    private seed: Long;
+    private initialValue: Long;
     /** @type {Long} Current value of the generator */
     private currentValue: Long;
 
@@ -40,6 +40,16 @@ export class SequenceFromLcg64 {
     }
 
     /**
+     * Simple getter for `this.initialValue` to prevent write access.
+     *
+     * @return {Long}
+     * `this.currentValue`
+     */
+    public get seed(): Long {
+        return this.initialValue;
+    }
+
+    /**
      * Changes `this.seed` and `this.currentValue` to the passed-in value.
      * Defaults to the current value of `this.seed`.
      *
@@ -50,8 +60,8 @@ export class SequenceFromLcg64 {
      * The new current, `seed`, as a `Long`
      */
     public reset(seed?: Long | number | string): Long {
-        this.seed = typeof seed === "undefined" ? this.seed : Long.fromValue(seed);
-        this.currentValue = this.seed;
+        this.initialValue = typeof seed === "undefined" ? this.initialValue : Long.fromValue(seed);
+        this.currentValue = this.initialValue;
         return this.value;
     }
 
