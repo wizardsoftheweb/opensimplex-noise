@@ -4,6 +4,7 @@
   "description": "JS OpenSimplex Noise Generator",
   "main": "index.js",
   "scripts": {
+    "benchmark": "cross-env node_modules/.bin/ts-node benchmarks/benchmarks",
     "test": "cross-env NODE_ENV=test nyc mocha",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
