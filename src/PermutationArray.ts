@@ -48,6 +48,7 @@ export class PermutationArray {
     public static INDEX_BITMASKS = [0x0E, 0xFF, 0xFC];
     /** @type {string} Error message for dimension not in 1,2,3 */
     public static UNKNOWN_DIMENSION = "Unrecognized number of dimensions passed in";
+
     /** @type {SequenceFromLcg64} Internal LCG instance */
     private prng: SequenceFromLcg64;
     /** @type {number[]} Holds the permutation indices for powers of two */
@@ -59,10 +60,10 @@ export class PermutationArray {
      * Initializes itself with a fresh LCG sequence from `seed` and immediately
      * regenerates the permutation indices.
      *
-     * @param {Long = PermutationArray.DEFAULT_SEED} seed
-     * The seed for the LCG.
+     * @param {Long = Long | number | string} seed
+     * The seed for the LCG. Defaults to `PermutationArray.DEFAULT_SEED`.
      */
-    constructor(seed: Long = PermutationArray.DEFAULT_SEED) {
+    constructor(seed: Long | number | string = PermutationArray.DEFAULT_SEED) {
         this.prng = new SequenceFromLcg64(seed);
         this.regenerate();
     }
