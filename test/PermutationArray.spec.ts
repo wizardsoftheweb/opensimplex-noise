@@ -104,50 +104,50 @@ describe("PermutationArray", (): void => {
         });
     });
 
-    // describe("initializePermutationIndices()", (): void => {
-    //     beforeEach(simpleBefore);
+    describe("initializePermutationIndices()", (): void => {
+        beforeEach(simpleBefore);
 
-    //     it("should reset the permutation arrays", (): any => {
-    //         const temp = ["qqq"];
-    //         (permutation as any).permutationIndicesPowersOfTwo = temp;
-    //         (permutation as any).permutationIndicesPowersOfTwo.should.have.length(temp.length);
-    //         (permutation as any).permutationIndices3d = temp;
-    //         (permutation as any).permutationIndices3d.should.have.length(temp.length);
-    //         (permutation as any).initializePermutationIndices();
-    //         (permutation as any).permutationIndicesPowersOfTwo.should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
-    //         (permutation as any).permutationIndices3d.should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
-    //     });
+        it("should reset the permutation arrays", (): any => {
+            const temp = ["qqq"];
+            (permutation as any).permutationIndicesPowersOfTwo = temp;
+            (permutation as any).permutationIndicesPowersOfTwo.should.have.length(temp.length);
+            (permutation as any).permutationIndices3d = temp;
+            (permutation as any).permutationIndices3d.should.have.length(temp.length);
+            (permutation as any).initializePermutationIndices();
+            (permutation as any).permutationIndicesPowersOfTwo.should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
+            (permutation as any).permutationIndices3d.should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
+        });
 
-    //     afterEach(simpleAfter);
-    // });
+        afterEach(simpleAfter);
+    });
 
-    // describe("initializePrng()", (): void => {
-    //     beforeEach((): void => {
-    //         simpleBefore();
-    //         assignPrng();
-    //     });
+    describe("initializePrng()", (): void => {
+        beforeEach((): void => {
+            simpleBefore();
+            assignPrng();
+        });
 
-    //     it("should pass through the seed", (): any => {
-    //         (permutation as any).initializePrng();
-    //         let call = resetStub.getCall(0);
-    //         call.should.be.an("object").that.has.property("args");
-    //         call.args.should.be.an("array").that.deep.equals([undefined]);
-    //         (permutation as any).initializePrng(Long.ZERO);
-    //         call = resetStub.getCall(1);
-    //         call.should.be.an("object").that.has.property("args");
-    //         call.args.should.be.an("array").that.deep.equals([Long.ZERO]);
-    //     });
+        it("should pass through the seed", (): any => {
+            (permutation as any).initializePrng();
+            let call = resetStub.getCall(0);
+            call.should.be.an("object").that.has.property("args");
+            call.args.should.be.an("array").that.deep.equals([undefined]);
+            (permutation as any).initializePrng(Long.ZERO);
+            call = resetStub.getCall(1);
+            call.should.be.an("object").that.has.property("args");
+            call.args.should.be.an("array").that.deep.equals([Long.ZERO]);
+        });
 
-    //     it("should step the generator forward", (): any => {
-    //         (permutation as any).initializePrng();
-    //         stepStub.callCount.should.equal(PermutationArray.NUMBER_OF_LCG_INIT_STEPS);
-    //         stepStub.reset();
-    //         (permutation as any).initializePrng(undefined, 0);
-    //         stepStub.called.should.be.false;
-    //         (permutation as any).initializePrng(undefined, 47);
-    //         stepStub.callCount.should.equal(47);
-    //     });
+        it("should step the generator forward", (): any => {
+            (permutation as any).initializePrng();
+            stepStub.callCount.should.equal(PermutationArray.NUMBER_OF_LCG_INIT_STEPS);
+            stepStub.reset();
+            (permutation as any).initializePrng(undefined, 0);
+            stepStub.called.should.be.false;
+            (permutation as any).initializePrng(undefined, 47);
+            stepStub.callCount.should.equal(47);
+        });
 
-    //     afterEach(simpleAfter);
-    // });
+        afterEach(simpleAfter);
+    });
 });
