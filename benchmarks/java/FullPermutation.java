@@ -3,7 +3,7 @@ public class FullPermutation extends Benchmark
     private short[] perm;
     private short[] permGradIndex3D;
 
-    void benchmarkCallback()
+    void benchmarkCallback(String[] argv)
     {
         long seed = 0;
         perm = new short[256];

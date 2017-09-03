@@ -2,7 +2,7 @@ public abstract class Benchmark
 {
     public static final int MAX_COUNT = 100;
 
-    abstract void benchmarkCallback();
+    abstract void benchmarkCallback(String[] argv);
 
     public void run(String[] argv)
     throws Exception
@@ -16,7 +16,7 @@ public abstract class Benchmark
         long start = System.nanoTime();
         for (int count = 0; count < maxCount; count++)
         {
-            this.benchmarkCallback();
+            this.benchmarkCallback(argv);
         }
         long elapsed = System.nanoTime() - start;
         long elapsedMicro = elapsed / 1000L;

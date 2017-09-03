@@ -1,6 +1,6 @@
 public class LcgInitialization extends Benchmark
 {
-    void benchmarkCallback()
+    void benchmarkCallback(String[] argv)
     {
         long seed = 0L;
         seed = seed * 6364136223846793005L + 1442695040888963407L;
