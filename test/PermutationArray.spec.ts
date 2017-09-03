@@ -64,45 +64,45 @@ describe("PermutationArray", (): void => {
         afterEach(simpleAfter);
     });
 
-    // describe("regenerate()", (): void => {
-    //     let prngStub: sinon.SinonStub;
-    //     let indexStub: sinon.SinonStub;
-    //     let permStub: sinon.SinonStub;
+    describe("regenerate()", (): void => {
+        let prngStub: sinon.SinonStub;
+        let indexStub: sinon.SinonStub;
+        let permStub: sinon.SinonStub;
 
-    //     beforeEach((): void => {
-    //         prngStub = sinon.stub(PermutationArray.prototype as any, "initializePrng");
-    //         indexStub = sinon.stub(PermutationArray.prototype as any, "initializePermutationIndices");
-    //         permStub = sinon.stub(PermutationArray.prototype as any, "permuteIndices");
-    //         permutation = new PermutationArray();
-    //         prngStub.reset();
-    //         indexStub.reset();
-    //         permStub.reset();
-    //     });
+        beforeEach((): void => {
+            prngStub = sinon.stub(PermutationArray.prototype as any, "initializePrng");
+            indexStub = sinon.stub(PermutationArray.prototype as any, "initializePermutationIndices");
+            permStub = sinon.stub(PermutationArray.prototype as any, "permuteIndices");
+            permutation = new PermutationArray();
+            prngStub.reset();
+            indexStub.reset();
+            permStub.reset();
+        });
 
-    //     it("should call the necessary methods", (): any => {
-    //         permutation.regenerate();
-    //         prngStub.calledOnce.should.be.true;
-    //         indexStub.calledOnce.should.be.true;
-    //         permStub.calledOnce.should.be.true;
-    //     });
+        it("should call the necessary methods", (): any => {
+            permutation.regenerate();
+            prngStub.calledOnce.should.be.true;
+            indexStub.calledOnce.should.be.true;
+            permStub.calledOnce.should.be.true;
+        });
 
-    //     it("should pass through the seed", (): any => {
-    //         permutation.regenerate();
-    //         let call = prngStub.getCall(0);
-    //         call.should.be.an("object").that.has.property("args");
-    //         call.args.should.be.an("array").that.deep.equals([undefined]);
-    //         permutation.regenerate(Long.ZERO);
-    //         call = prngStub.getCall(1);
-    //         call.should.be.an("object").that.has.property("args");
-    //         call.args.should.be.an("array").that.deep.equals([Long.ZERO]);
-    //     });
+        it("should pass through the seed", (): any => {
+            permutation.regenerate();
+            let call = prngStub.getCall(0);
+            call.should.be.an("object").that.has.property("args");
+            call.args.should.be.an("array").that.deep.equals([undefined]);
+            permutation.regenerate(Long.ZERO);
+            call = prngStub.getCall(1);
+            call.should.be.an("object").that.has.property("args");
+            call.args.should.be.an("array").that.deep.equals([Long.ZERO]);
+        });
 
-    //     afterEach((): void => {
-    //         prngStub.restore();
-    //         indexStub.restore();
-    //         permStub.restore();
-    //     });
-    // });
+        afterEach((): void => {
+            prngStub.restore();
+            indexStub.restore();
+            permStub.restore();
+        });
+    });
 
     // describe("initializePermutationIndices()", (): void => {
     //     beforeEach(simpleBefore);
