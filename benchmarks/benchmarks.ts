@@ -22,9 +22,13 @@ const logger = new winston.Logger({
     ],
 });
 
+// @todo pull tests into object/function
 compileJavaBenchmarks()
     .then(() => {
         logger.info("Beginning benchmarks");
+    })
+    .then(() => {
+        // @todo benchmark not default seed
         logger.info("Benchmarking LCG initialization");
         const lcgResults: IResultSet = newResultSet();
         return benchmarkCallback(() => {
@@ -45,6 +49,27 @@ compileJavaBenchmarks()
             })
             .then(() => {
                 pickWinner(lcgResults, "LCG Initialization");
+            });
+    })
+    .then(() => {
+        // @todo benchmark not default seed
+        logger.info("Benchmarking permutations");
+        const lcgResults: IResultSet = newResultSet();
+        return benchmarkCallback(() => {
+            const permutation = new PermutationArray();
+        })
+            .then((result: IResult) => {
+                lcgResults.TypeScript = result;
+            })
+            .then(() => {
+                return benchmarkJava("FullPermutation")
+                    ;
+            })
+            .then((result: IResult) => {
+                lcgResults.Java = result;
+            })
+            .then(() => {
+                pickWinner(lcgResults, "Permutation");
             });
     })
     .then(() => {
