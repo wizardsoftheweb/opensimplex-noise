@@ -110,12 +110,20 @@ describe("PermutationArray", (): void => {
         it("should reset the permutation arrays", (): any => {
             const temp = ["qqq"];
             (permutation as any).permutationIndicesPowersOfTwo = temp;
-            (permutation as any).permutationIndicesPowersOfTwo.should.have.length(temp.length);
+            (permutation as any)
+                .permutationIndicesPowersOfTwo
+                .should.have.length(temp.length);
             (permutation as any).permutationIndices3d = temp;
-            (permutation as any).permutationIndices3d.should.have.length(temp.length);
+            (permutation as any)
+                .permutationIndices3d
+                .should.have.length(temp.length);
             (permutation as any).initializePermutationIndices();
-            (permutation as any).permutationIndicesPowersOfTwo.should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
-            (permutation as any).permutationIndices3d.should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
+            (permutation as any)
+                .permutationIndicesPowersOfTwo
+                .should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
+            (permutation as any)
+                .permutationIndices3d
+                .should.have.length(PermutationArray.PERMUTATION_ARRAY_LENGTH);
         });
 
         afterEach(simpleAfter);
@@ -152,9 +160,21 @@ describe("PermutationArray", (): void => {
     });
 
     // describe("translatePrngModBase()", (): void => {
+    //     const simpleBase = PermutationArray.INDEX_TRANSLATION_CONSTANT * 2;
+
     //     beforeEach((): void => {
     //         simpleBefore();
     //         assignPrng();
+    //     });
+
+    //     it("should handle positive returns", (): any => {
+    //         stepStub.returns(Long.ZERO);
+    //         (permutation as any).translatePrngModBase(simpleBase).should.equal(PermutationArray.INDEX_TRANSLATION_CONSTANT);
+    //     });
+
+    //     it("should handle negative returns", (): any => {
+    //         stepStub.returns(Long.fromInt(0 - PermutationArray.INDEX_TRANSLATION_CONSTANT - 1));
+    //         (permutation as any).translatePrngModBase(simpleBase).should.equal(simpleBase - 1);
     //     });
 
     //     afterEach(simpleAfter);
