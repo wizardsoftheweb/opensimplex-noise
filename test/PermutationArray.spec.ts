@@ -159,26 +159,30 @@ describe("PermutationArray", (): void => {
         afterEach(simpleAfter);
     });
 
-    // describe("translatePrngModBase()", (): void => {
-    //     const simpleBase = PermutationArray.INDEX_TRANSLATION_CONSTANT * 2;
+    describe("translatePrngModBase()", (): void => {
+        const simpleBase = PermutationArray.INDEX_TRANSLATION_CONSTANT * 2;
 
-    //     beforeEach((): void => {
-    //         simpleBefore();
-    //         assignPrng();
-    //     });
+        beforeEach((): void => {
+            simpleBefore();
+            assignPrng();
+        });
 
-    //     it("should handle positive returns", (): any => {
-    //         stepStub.returns(Long.ZERO);
-    //         (permutation as any).translatePrngModBase(simpleBase).should.equal(PermutationArray.INDEX_TRANSLATION_CONSTANT);
-    //     });
+        it("should handle positive returns", (): any => {
+            stepStub.returns(Long.ZERO);
+            (permutation as any)
+                .translatePrngModBase(simpleBase)
+                .should.equal(PermutationArray.INDEX_TRANSLATION_CONSTANT);
+        });
 
-    //     it("should handle negative returns", (): any => {
-    //         stepStub.returns(Long.fromInt(0 - PermutationArray.INDEX_TRANSLATION_CONSTANT - 1));
-    //         (permutation as any).translatePrngModBase(simpleBase).should.equal(simpleBase - 1);
-    //     });
+        it("should handle negative returns", (): any => {
+            stepStub.returns(Long.fromInt(0 - PermutationArray.INDEX_TRANSLATION_CONSTANT - 1));
+            (permutation as any)
+                .translatePrngModBase(simpleBase)
+                .should.equal(simpleBase - 1);
+        });
 
-    //     afterEach(simpleAfter);
-    // });
+        afterEach(simpleAfter);
+    });
 
     describe("translateTo3dValue()", (): void => {
         beforeEach(simpleBefore);
