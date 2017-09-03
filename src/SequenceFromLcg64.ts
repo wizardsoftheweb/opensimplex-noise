@@ -13,7 +13,7 @@ export class SequenceFromLcg64 {
      */
     private generator: LinearCongruentialGenerator64 = LinearCongruentialGenerator64.knuthGenerator;
     /** @type {bigInt.BigInteger} The initial seed for verification purposes */
-    private seed: bigInt.BigInteger;
+    private initialValue: bigInt.BigInteger;
     /** @type {bigInt.BigInteger} Current value of the generator */
     private currentValue: bigInt.BigInteger;
 
@@ -40,6 +40,15 @@ export class SequenceFromLcg64 {
     }
 
     /**
+     * Simple getter for `this.initialValue` to prevent write access.
+     * @return {bigInt.BigInteger}
+     * Returns the starting value of the sequence.
+     */
+    public get seed(): bigInt.BigInteger {
+        return this.initialValue;
+    }
+
+    /**
      * Changes `this.seed` and `this.currentValue` to the passed-in value.
      * Defaults to the current value of `this.seed`.
      *
@@ -50,8 +59,8 @@ export class SequenceFromLcg64 {
      * The new current, `seed`, as a `BigInteger`
      */
     public reset(seed?: bigInt.BigNumber): bigInt.BigInteger {
-        this.seed = typeof seed === "undefined" ? this.seed : bigInt(seed as any);
-        this.currentValue = this.seed;
+        this.initialValue = typeof seed === "undefined" ? this.initialValue : bigInt(seed as any);
+        this.currentValue = this.initialValue;
         return this.value;
     }
 
