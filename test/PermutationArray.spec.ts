@@ -65,6 +65,7 @@ describe("PermutationArray", (): void => {
     });
 
     describe("regenerate()", (): void => {
+        // @todo decide if this implementation-specific test needs to exist
         let prngStub: sinon.SinonStub;
         let indexStub: sinon.SinonStub;
         let permStub: sinon.SinonStub;
@@ -191,6 +192,30 @@ describe("PermutationArray", (): void => {
             for (let index = 0; index < PermutationArray.NUMBER_OF_3D_GRADIENTS; index++) {
                 (permutation as any).translateTo3dValue(index).should.equal(index * 3);
             }
+        });
+
+        afterEach(simpleAfter);
+    });
+
+    describe("permuteIndices()", (): void => {
+        beforeEach(simpleBefore);
+
+        it("should permute the index arrays", (): any => {
+            const translateStub = sinon.stub(permutation as any, "translatePrngModBase")
+                .callsFake((base: number): number => {
+                    return base - 1;
+                });
+            (permutation as any).initializePermutationIndices();
+            (permutation as any).permuteIndices();
+            (permutation as any)
+                .permutationIndicesPowersOfTwo
+                .should.deep.equal(PermutationArray.DOMAIN);
+            const permArray3d = PermutationArray.DOMAIN.map((value: number) => {
+                return (value % PermutationArray.NUMBER_OF_3D_GRADIENTS) * 3;
+            });
+            (permutation as any)
+                .permutationIndices3d
+                .should.deep.equal(permArray3d);
         });
 
         afterEach(simpleAfter);
