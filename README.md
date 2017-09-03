@@ -22,6 +22,12 @@ npm install --save git+https://github.com/wizardsoftheweb/opensimplex-noise
 
 TODO: write documentation after the API is done
 
+### Benchmarks
+
+```bash
+npm run benchmark
+```
+
 ## Motivation
 
 I wanted to build this myself before using libraries to get a better understanding of the process. I have several applications that require a solid `n`-dimensional noise generator. [Simplex noise](https://en.wikipedia.org/wiki/Simplex_noise) provides smoother, more controllable noise than, say, [diamond-square](https://en.wikipedia.org/wiki/Diamond-square_algorithm), and has the added benefit of sounding really pretentious. It's also anecdotally the gold standard and mathematically pretty neat.
