@@ -48,21 +48,24 @@ export class PermutationArray {
     public static INDEX_BITMASKS = [0x0E, 0xFF, 0xFC];
     /** @type {string} Error message for dimension not in 1,2,3 */
     public static UNKNOWN_DIMENSION = "Unrecognized number of dimensions passed in";
+
     /** @type {SequenceFromLcg64} Internal LCG instance */
     private prng: SequenceFromLcg64;
     /** @type {number[]} Holds the permutation indices for powers of two */
     private permutationIndicesPowersOfTwo: number[];
     /** @type {number[]} Holds the permutation indices for 3D */
     private permutationIndices3d: number[];
+    /** @type {number[][]} Holds references to each dimension's permutation array */
+    private permutationIndexReferencesByDimension: number[][];
 
     /**
      * Initializes itself with a fresh LCG sequence from `seed` and immediately
      * regenerates the permutation indices.
      *
-     * @param {Long = PermutationArray.DEFAULT_SEED} seed
-     * The seed for the LCG.
+     * @param {Long = Long | number | string} seed
+     * The seed for the LCG. Defaults to `PermutationArray.DEFAULT_SEED`.
      */
-    constructor(seed: Long = PermutationArray.DEFAULT_SEED) {
+    constructor(seed: Long | number | string = PermutationArray.DEFAULT_SEED) {
         this.prng = new SequenceFromLcg64(seed);
         this.regenerate();
     }
@@ -81,32 +84,32 @@ export class PermutationArray {
     }
 
     /**
-     * Given `(x, y, z?, w?)`, returns the index of the desired gradient.
+     * Given `(x, y, z?, w?)`, returns the index of the desired gradient. Rather
+     * than checking it items are defined, either fails silently by returning
+     * undefined (which masks to zero) or throws an error if run in `strict`
+     * mode (default for TS code).
      *
-     * @param  {number[]} ...coordinates
+     * @param  {...number[]} coordinates
      * Between two and four (inclusive) numbers, `(x, y, z?, w?)`
      * @return {number}
      * The starting index of the the desired Gradient
-     * @todo break into named methods for optimization
+     * @todo break into named dimensional methods for optimization
      */
-    public extrapolate(...coordinates: number[]): number {
+    public extrapolateGradientIndexFromCoordinates(...coordinates: number[]): number {
         /* tslint:disable:no-bitwise */
         const dimension = coordinates.length;
+        // fails silently through the bitmask
         const bitMask = PermutationArray.INDEX_BITMASKS[dimension - 2];
-        if (bitMask > 0) {
-            let result = 0;
-            for (let index = 0; index < dimension - 1; index++) {
-                /* tslint:disable-next-line:no-bitwise */
-                result = this.permutationIndicesPowersOfTwo[(result + coordinates[index]) & 0xFF];
-            }
-            return (
-                dimension === 3
-                    ? this.permutationIndices3d
-                    : this.permutationIndicesPowersOfTwo
-            )[(result + coordinates[dimension - 2]) & 0xFF] & bitMask;
+        let result = 0;
+        for (let index = 0; index < dimension - 1; index++) {
+            result = this.permutationIndicesPowersOfTwo[(result + coordinates[index]) & 0xFF];
         }
+        return (
+            this.permutationIndexReferencesByDimension      // reference holder
+            [dimension - 2]                                 // dimension
+            [(result + coordinates[dimension - 1]) & 0xFF]  // actual index
+        ) & bitMask;
         /* tslint:enable:no-bitwise */
-        throw new Error(PermutationArray.UNKNOWN_DIMENSION);
     }
 
     /**
@@ -116,6 +119,10 @@ export class PermutationArray {
     private initializePermutationIndices(): void {
         this.permutationIndicesPowersOfTwo = new Array(PermutationArray.PERMUTATION_ARRAY_LENGTH);
         this.permutationIndices3d = new Array(PermutationArray.PERMUTATION_ARRAY_LENGTH);
+        this.permutationIndexReferencesByDimension = [];
+        this.permutationIndexReferencesByDimension.push(this.permutationIndicesPowersOfTwo);
+        this.permutationIndexReferencesByDimension.push(this.permutationIndices3d);
+        this.permutationIndexReferencesByDimension.push(this.permutationIndicesPowersOfTwo);
     }
 
     /**
