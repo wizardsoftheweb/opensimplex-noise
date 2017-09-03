@@ -10,13 +10,15 @@ const should = chai.should();
 /* tslint:disable-next-line:no-var-requires */
 // chai.use(require("chai-as-promised"));
 
-import * as bigInt from "big-integer";
+import * as Long from "long";
 
 import { LinearCongruentialGenerator64 } from "../src/LinearCongruentialGenerator64";
 import { SequenceFromLcg64 } from "../src/SequenceFromLcg64";
 
 describe("SequenceFromLcg64", (): void => {
     let sequence: SequenceFromLcg64;
+    const longOne = Long.fromNumber(1);
+    const longZero = Long.fromNumber(0);
 
     describe("constructor", (): void => {
         it("should use the Knuth generator", (): any => {
@@ -35,41 +37,49 @@ describe("SequenceFromLcg64", (): void => {
 
     describe("reset()", (): void => {
         beforeEach((): void => {
-            sequence = new SequenceFromLcg64(bigInt.one);
+            sequence = new SequenceFromLcg64(longOne);
         });
 
         it("should assign the seed from numbers", (): any => {
             sequence.reset(0);
-            sequence.value.should.deep.equal(bigInt.zero);
+            sequence.value.should.deep.equal(longZero);
         });
 
         it("should assign the seed from strings", (): any => {
             sequence.reset("0");
-            sequence.value.should.deep.equal(bigInt.zero);
+            sequence.value.should.deep.equal(longZero);
         });
 
         it("should assign the seed from BigIntegers", (): any => {
-            sequence.reset(bigInt.zero);
-            sequence.value.should.deep.equal(bigInt.zero);
+            sequence.reset(longZero);
+            sequence.value.should.deep.equal(longZero);
         });
 
         it("should use the original seed if none is passed", (): any => {
             sequence.step(1);
-            sequence.value.should.not.deep.equal(bigInt.one);
+            sequence.value.should.not.deep.equal(longOne);
             sequence.reset();
-            sequence.value.should.deep.equal(bigInt.one);
+            sequence.value.should.deep.equal(longOne);
         });
 
         it("should change the seed when a value is passed in", (): any => {
-            sequence.reset(bigInt.zero);
-            (sequence as any).seed.should.deep.equal(bigInt.zero);
+            sequence.reset(longZero);
+            (sequence as any).seed.should.deep.equal(longZero);
         });
     });
 
     describe("get value()", (): void => {
         it("should return the private currentValue", (): any => {
             sequence = new SequenceFromLcg64(0);
-            sequence.value.should.deep.equal(bigInt.zero);
+            sequence.value.should.deep.equal(longZero);
+        });
+    });
+
+    describe("get seed()", (): void => {
+        it("should return the private initialValue", (): any => {
+            sequence = new SequenceFromLcg64(longOne);
+            sequence.step();
+            sequence.seed.should.deep.equal(longOne);
         });
     });
 
@@ -85,7 +95,7 @@ describe("SequenceFromLcg64", (): void => {
         const seed = "12468166129849";
         const output = [
             "2325538385882513620",
-            "14552467357210825363",
+            "-3894276716498726253",
             "5161056227874468390",
             "5464302309222149117",
             "4694191040976256968",
