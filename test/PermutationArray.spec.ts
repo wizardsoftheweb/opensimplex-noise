@@ -22,6 +22,10 @@ describe("PermutationArray", (): void => {
     let resetStub: sinon.SinonStub;
     let stepStub: sinon.SinonStub;
 
+    const permArray3d = PermutationArray.DOMAIN.map((value: number) => {
+        return (value % PermutationArray.NUMBER_OF_3D_GRADIENTS) * 3;
+    });
+
     function simpleBefore(): void {
         regenStub = sinon.stub(PermutationArray.prototype as any, "regenerate");
         permutation = new PermutationArray();
@@ -210,12 +214,58 @@ describe("PermutationArray", (): void => {
             (permutation as any)
                 .permutationIndicesPowersOfTwo
                 .should.deep.equal(PermutationArray.DOMAIN);
-            const permArray3d = PermutationArray.DOMAIN.map((value: number) => {
-                return (value % PermutationArray.NUMBER_OF_3D_GRADIENTS) * 3;
-            });
             (permutation as any)
                 .permutationIndices3d
                 .should.deep.equal(permArray3d);
+        });
+
+        afterEach(simpleAfter);
+    });
+
+    describe("extrapolate()", (): void => {
+        beforeEach((): void => {
+            simpleBefore();
+            (permutation as any).initializePermutationIndices();
+            for (let index = 0; index < PermutationArray.PERMUTATION_ARRAY_LENGTH; index++) {
+                (permutation as any).permutationIndicesPowersOfTwo[index] = PermutationArray.DOMAIN[index];
+                (permutation as any).permutationIndices3d[index] = permArray3d[index];
+            }
+        });
+
+        it("should find zero", (): any => {
+            let index = (permutation as any).extrapolateGradientIndexFromCoordinates(0, 0);
+            index.should.equal(0);
+            index = (permutation as any).extrapolateGradientIndexFromCoordinates(0, 0, 0);
+            index.should.equal(0);
+            index = (permutation as any).extrapolateGradientIndexFromCoordinates(0, 0, 0, 0);
+            index.should.equal(0);
+        });
+
+        it("should find arbitrary coordinates", (): any => {
+            let index;
+            const xIndices = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+            for (const xIndex of xIndices) {
+                const coords = [xIndex, 256, 256, 256];
+                while (coords.length > 1) {
+                    index = (permutation as any).extrapolateGradientIndexFromCoordinates(...coords);
+                    index.should.equal(
+                        coords.length === 3
+                            ? (xIndex % 8) * 3
+                            /* tslint:disable-next-line:no-bitwise */
+                            : (Math.floor(xIndex / 2) * 2) & (16 - coords.length),
+                    );
+                    coords.pop();
+                }
+            }
+        });
+
+        it("should throw on bad dimensions", (): any => {
+            (permutation as any).extrapolateGradientIndexFromCoordinates
+                .bind(permutation as any, 0)
+                .should.throw();
+            (permutation as any).extrapolateGradientIndexFromCoordinates
+                .bind(permutation as any, 0, 0, 0, 0, 0)
+                .should.throw();
         });
 
         afterEach(simpleAfter);
