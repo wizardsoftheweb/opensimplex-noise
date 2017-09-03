@@ -22,55 +22,31 @@ const logger = new winston.Logger({
     ],
 });
 
-// @todo pull tests into object/function
+// @todo objectify comparisons
 compileJavaBenchmarks()
     .then(() => {
         logger.info("Beginning benchmarks");
     })
     .then(() => {
         // @todo benchmark not default seed
-        logger.info("Benchmarking LCG initialization");
-        const lcgResults: IResultSet = newResultSet();
-        return benchmarkCallback(() => {
-            const lcgSequence = new SequenceFromLcg64(0);
-            for (let index = 0; index < PermutationArray.NUMBER_OF_LCG_INIT_STEPS; index++) {
-                lcgSequence.step();
-            }
-        })
-            .then((result: IResult) => {
-                lcgResults.TypeScript = result;
-            })
-            .then(() => {
-                return benchmarkJava("LcgInitialization")
-                    ;
-            })
-            .then((result: IResult) => {
-                lcgResults.Java = result;
-            })
-            .then(() => {
-                pickWinner(lcgResults, "LCG Initialization");
-            });
+        return compareCallbackToJava(
+            () => {
+                const lcgSequence = new SequenceFromLcg64(0);
+                for (let index = 0; index < PermutationArray.NUMBER_OF_LCG_INIT_STEPS; index++) {
+                    lcgSequence.step();
+                }
+            },
+            "LcgInitialization",
+        );
     })
     .then(() => {
         // @todo benchmark not default seed
-        logger.info("Benchmarking permutations");
-        const lcgResults: IResultSet = newResultSet();
-        return benchmarkCallback(() => {
-            const permutation = new PermutationArray();
-        })
-            .then((result: IResult) => {
-                lcgResults.TypeScript = result;
-            })
-            .then(() => {
-                return benchmarkJava("FullPermutation")
-                    ;
-            })
-            .then((result: IResult) => {
-                lcgResults.Java = result;
-            })
-            .then(() => {
-                pickWinner(lcgResults, "Permutation");
-            });
+        return compareCallbackToJava(
+            () => {
+                const permutation = new PermutationArray();
+            },
+            "FullPermutation",
+        );
     })
     .then(() => {
         logger.info("Benchmarks finished");
@@ -129,7 +105,7 @@ function benchmarkCallback(callback: any, maxCount = MAX_RUN_COUNT): Bluebird<IR
             const stop = microtime.nowStruct() as [number, number];
             const diff = (stop[0] - start[0]) * 1e7 + (stop[1] - start[1]);
             logger.silly(`Finished ${maxCount} calls in ${diff} \u03BCs`);
-            logger.silly(`Average runtime was ~${diff / 100} \u03BCs`);
+            logger.silly(`Average runtime was ~${diff / maxCount} \u03BCs`);
             return { diff, start, stop };
         });
 }
@@ -150,7 +126,7 @@ function benchmarkJava(className: string, maxCount = MAX_RUN_COUNT): Bluebird<IR
                 }
                 const diff = parseInt(stdout, 10);
                 logger.silly(`Finished ${maxCount} calls in ${diff} \u03BCs`);
-                logger.silly(`Average runtime was ~${diff / 100} \u03BCs`);
+                logger.silly(`Average runtime was ~${diff / maxCount} \u03BCs`);
                 return resolve({ diff });
             },
         );
@@ -171,12 +147,12 @@ function newResultSet(): IResultSet {
     return result;
 }
 
-function pickWinner(results: IResultSet, name: string): void {
+function pickWinner(results: IResultSet, name: string, count = MAX_RUN_COUNT): void {
     const winner = results.TypeScript.diff > results.Java.diff ? "Java" : "TypeScript";
     logger.info(`\
 ${name} winner: ${winner} @ \
 ${results[winner].diff} \u03BCs total / \
-~${results[winner].diff / 100} \u03BCs average`);
+~${results[winner].diff / count} \u03BCs average`);
 }
 
 function cleanUp(): Bluebird<any> {
@@ -186,4 +162,25 @@ function cleanUp(): Bluebird<any> {
         shelljs.rm("-f", "*.class");
         return resolve();
     });
+}
+
+function compareCallbackToJava(
+    callback: any,
+    className: string,
+    maxCount = MAX_RUN_COUNT,
+): Bluebird<IResultSet> {
+    logger.info(`Benchmarking ${className}`);
+    const results: IResultSet = newResultSet();
+    return benchmarkCallback(callback, maxCount)
+        .then((result: IResult) => {
+            results.TypeScript = result;
+            return benchmarkJava(className, maxCount);
+        })
+        .then((result: IResult) => {
+            results.Java = result;
+            pickWinner(results, className, maxCount);
+        })
+        .then(() => {
+            return results;
+        });
 }
