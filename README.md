@@ -43,6 +43,7 @@ Once all of these are finished, I'll release `v1`. Until then, `v0` should be us
 |      2% | Port `OpenSimplexNoise.java` |
 |      4% | Break down `OpenSimplexNoise.java` into constituent tasks |
 |    100% | Build and document an implementation of the LCG used in `OpenSimplexNoise.java` |
+|    100% | Duplicate the LCG's output (and `long` manipulation) |
 |      0% | Publish package on `npm` |
 |      0% | Switch defaults (branch, badges) from `master` to `dev` |
 |      0% | Add fancy `README` TOC |
