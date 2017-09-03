@@ -46,31 +46,47 @@ export class PermutationArray {
      * @todo import gradient to calculate on load
      */
     public static INDEX_BITMASKS = [0x0E, 0xFF, 0xFC];
-
-    public static UNKNOWN_DIMENSION = "Unknown number of dimensions passed in";
-
-
-
+    /** @type {string} Error message for dimension not in 1,2,3 */
+    public static UNKNOWN_DIMENSION = "Unrecognized number of dimensions passed in";
+    /** @type {SequenceFromLcg64} Internal LCG instance */
     private prng: SequenceFromLcg64;
-
+    /** @type {number[]} Holds the permutation indices for powers of two */
     private permutationIndicesPowersOfTwo: number[];
+    /** @type {number[]} Holds the permutation indices for 3D */
     private permutationIndices3d: number[];
 
+    /**
+     * Initializes itself with a fresh LCG sequence from `seed` and immediately
+     * regenerates the permutation indices.
+     *
+     * @param {Long = PermutationArray.DEFAULT_SEED} seed
+     * The seed for the LCG.
+     */
     constructor(seed: Long = PermutationArray.DEFAULT_SEED) {
         this.prng = new SequenceFromLcg64(seed);
-        this.regenerate(seed);
+        this.regenerate();
     }
 
-    public regenerate(seed?: Long) {
-        this.initializePrng();
+    /**
+     * Collects and runs all the methods necessary to regenerate the index
+     * arrays.
+     *
+     * @param {Long} seed
+     * An optional seed. If not present, the LCG's original seed is used.
+     */
+    public regenerate(seed?: Long): void {
+        this.initializePrng(seed);
         this.initializePermutationIndices();
         this.permuteIndices();
     }
 
     /**
+     * Given `(x, y, z?, w?)`, returns the index of the desired gradient.
      *
-     * @param  {number[]} ...coordinates [description]
-     * @return {number}                  [description]
+     * @param  {number[]} ...coordinates
+     * Between two and four (inclusive) numbers, `(x, y, z?, w?)`
+     * @return {number}
+     * The starting index of the the desired Gradient
      * @todo break into named methods for optimization
      */
     public extrapolate(...coordinates: number[]): number {
@@ -93,38 +109,76 @@ export class PermutationArray {
         throw new Error(PermutationArray.UNKNOWN_DIMENSION);
     }
 
+    /**
+     * (Re)Initializes the index arrays to empty arrays of length
+     * `PermutationArray.PERMUTATION_ARRAY_LENGTH`
+     */
     private initializePermutationIndices(): void {
         this.permutationIndicesPowersOfTwo = new Array(PermutationArray.PERMUTATION_ARRAY_LENGTH);
         this.permutationIndices3d = new Array(PermutationArray.PERMUTATION_ARRAY_LENGTH);
     }
 
+    /**
+     * Sets up the LCG by reseting it to its seed value, and moves it forward
+     * `numberOfInitSteps`. (Original magic number is in
+     * `PermutationArray.NUMBER_OF_LCG_INIT_STEPS`)
+     *
+     * @param {Long   | undefined}                                 seed
+     * The new seed to use, if any
+     * @param {number} numberOfInitSteps
+     * Number of steps to move the LCG forward before beginning. Defaults to
+     * `PermutationArray.NUMBER_OF_LCG_INIT_STEPS`.
+     */
     private initializePrng(
-        seed: Long = this.prng.seed,
+        seed?: Long | undefined,
         numberOfInitSteps: number = PermutationArray.NUMBER_OF_LCG_INIT_STEPS,
     ): void {
-        this.prng.reset();
+        this.prng.reset(seed);
         for (let i = 0; i < numberOfInitSteps; i++) {
             this.prng.step();
         }
     }
 
+    /**
+     * Performs a horizontal translation of the LCG mod `base`, yielding a
+     * (pseudo)random number in `[0,base)`
+     *
+     * @see [Source](https://gist.github.com/KdotJPG/b1270127455a94ac5d19#file-opensimplexnoise-java-L63)
+     * @param  {number}    base
+     * Number to mod against.
+     * @param  {number} horizontalPrngShift
+     * Translates the value from the LCG. Defaults to `PermutationArray.INDEX_TRANSLATION_CONSTANT`.
+     * @return {number}
+     * The resulting random number in `[0,base)`
+     */
     private translatePrngModBase(
         base: number,
         horizontalPrngShift: number = PermutationArray.INDEX_TRANSLATION_CONSTANT,
     ): number {
         const pRandom = this.prng.step();
-        if (base === 256 || base === 255 || base === 253) {
-            console.log(this.prng.value.toString());
-            console.log(this.prng.value.toString(2));
-        }
         const result = (pRandom.add(horizontalPrngShift)).mod(base).toInt();
         return result < 0 ? result + base : result;
     }
 
+    /**
+     * Returns the appropriate 3D value, skewed to match the 3D gradients
+     * @param  {number} value
+     * Number to skew
+     * @return {number}
+     * 3D index
+     */
     private translateTo3dValue(value: number): number {
         return (value % PermutationArray.NUMBER_OF_3D_GRADIENTS) * 3;
     }
 
+    /**
+     * Rebuilds the permutation arrays using the LCG.
+     *
+     * A `chosenIndex` in `[0, length)` is picked using the LCG. The chosen
+     * value is swapped with the contents at `length - 1`. The process is
+     * repeated with `[0, length - n)` until `n = length`.
+     * @todo explain the inductive step more better
+     */
     private permuteIndices(): void {
         const source = PermutationArray.DOMAIN.slice();
         for (const index of PermutationArray.DOMAIN_REVERSED) {
@@ -136,23 +190,3 @@ export class PermutationArray {
     }
 
 }
-
-const default3d = [18, 6, 12, 0, 12, 6, 18, 0, 18, 6, 6, 18, 0, 3, 12, 6, 0, 6, 12, 15, 15, 6, 3, 15, 6, 6, 12, 18, 0, 18, 12, 12, 9, 12, 0, 6, 18, 15, 6, 6, 15, 12, 0, 12, 12, 3, 3, 18, 18, 21, 3, 6, 0, 0, 21, 3, 0, 18, 18, 15, 15, 0, 3, 21, 6, 9, 6, 18, 18, 3, 21, 18, 0, 15, 9, 3, 0, 18, 15, 12, 0, 3, 18, 12, 9, 21, 15, 0, 21, 15, 0, 21, 0, 15, 3, 21, 6, 3, 18, 15, 18, 9, 12, 9, 0, 0, 15, 6, 3, 15, 15, 9, 12, 0, 3, 6, 18, 15, 18, 12, 6, 15, 12, 12, 18, 3, 6, 9, 6, 12, 3, 21, 0, 15, 0, 3, 15, 9, 6, 18, 18, 6, 18, 0, 3, 12, 3, 21, 15, 9, 3, 21, 6, 9, 6, 3, 6, 6, 15, 9, 12, 21, 6, 21, 3, 0, 12, 9, 18, 9, 12, 12, 21, 21, 6, 0, 0, 21, 0, 0, 18, 3, 6, 0, 18, 12, 18, 21, 12, 3, 0, 15, 0, 9, 18, 9, 15, 15, 3, 3, 12, 21, 15, 9, 21, 9, 3, 21, 6, 15, 3, 21, 12, 15, 15, 9, 21, 9, 18, 21, 9, 9, 12, 9, 9, 3, 18, 9, 9, 3, 12, 12, 21, 21, 6, 9, 15, 3, 0, 9, 21, 3, 15, 21, 9, 21, 15, 9, 21, 9, 21, 21, 18, 21, 12, 9];
-const permutationArray = new PermutationArray();
-const resultArray = (permutationArray as any).permutationIndices3d;
-for (let index = 255; index >= 253; index--) {
-    if (default3d[index] !== resultArray[index]) {
-        console.log(`${index}: ${default3d[index]} !== ${resultArray[index]}`);
-    }
-}
-
-const twoPow64 = "18446744073709551616";
-const twoPow64Hex = "0x10000000000000000";
-const twoPow64MinusOne = "18446744073709551615";
-const twoPow64MinusOneHex = "0xFFFFFFFFFFFFFFFF";
-const twoPow63Minus1 = "9223372036854775807";
-const twoPow64Minus1Hex = "0x7FFFFFFFFFFFFFFF";
-
-// assert("110011010110110000110101110100101111111001000001001100110110100").equals("110011010110110000110101110100101111111001000001001100110110100");
-// 1000111110010100011111110011011011010000110100001111011000000110
-// 1010001000000100100110111000001001111101011011011101001011101
