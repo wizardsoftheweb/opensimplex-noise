@@ -34,6 +34,12 @@ npm install --save git+https://github.com/wizardsoftheweb/opensimplex-noise
 
 TODO: write documentation after the API is done
 
+If you're desparate (as in "completely desparate and have absolutely no other option because your life depends on generating the docs for this repo you found on the internet"), you can build them via `npm`:
+```bash
+npm run build:docs
+```
+Chances are it's not going to work as intended. TypeDoc's got [an issue](https://github.com/TypeStrong/typedoc/pull/587) with configuration and I lost all motivation to fix this repo's config after figuring out the bug upstream.
+
 ## Benchmarks
 
 I've tried to pull out specific sections of [the original](docs/OpenSimplexNoise.java) to compare against the TypeScript versions, in part to see where the TypeScript might need improvement.
@@ -110,3 +116,4 @@ These are things I'd like to add, but probably won't be included in `v1`. If not
 |      0% | Implement [reverse LCG](https://stackoverflow.com/a/16630535) |
 |      0% | Tests against the original Java |
 |      0% | Determine `Bluebird` usage or move it to `devDependencies` |
+|      0% | Fix [TypeDoc config](https://github.com/TypeStrong/typedoc/pull/587) |
