@@ -75,6 +75,12 @@ interface IResultSet {
 
 function compileJavaBenchmarks() {
     return new Bluebird((resolve, reject) => {
+        if (!shelljs.which("javac")) {
+            return reject(new Error("Unable to find Java compiler (which javac)"));
+        }
+        if (!shelljs.which("java")) {
+            return reject(new Error("Unable to find Java (which java)"));
+        }
         logger.info("Compiling Java files");
         shelljs.cd(javaDir);
         shelljs.exec(
