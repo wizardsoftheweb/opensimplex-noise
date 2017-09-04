@@ -22,11 +22,42 @@ npm install --save git+https://github.com/wizardsoftheweb/opensimplex-noise
 
 TODO: write documentation after the API is done
 
-### Benchmarks
+## Benchmarks
 
 ```bash
 npm run benchmark
 ```
+
+I've tried to pull out specific sections of [the original](docs/OpenSimplexNoise.java) to compare against the TypeScript implementations.
+
+* The benchmarks require Java, i.e.
+    ```bash
+    which javac
+    # some non-empty path
+    which java
+    # some non-empty path
+    ```
+    For testing, I've been using `openjdk-8-jdk` on `Ubuntu 16.04.2 LTS` via `Windows 10 Pro`. I will eventually move this out of my gaming environment and into my work environment so that I can run real comparisons, but that's far enough in the future I'm not even including it in the roadmap. Yet.
+* Benchmarks are slightly silly. Your benchmark is going to be different than mine. Don't use the results as objective proof of superiority, because they're not. I'm an average coder writing in a transpiled interpreted language not built to handle `long`s natively, so you should expect the Java version to run better. However, Java is an interpreted language, so this code could be occasionally faster.
+* For the most part, the TypeScript hasn't been optimized. I have no doubt there's a ton of inefficient code slowing things down.
+* I tried to make things one-to-one. For example, while comparing the LCG initialization, I run [this TypeScript](benchmarks/benchmarks.ts#L34):
+
+    ```javascript
+    const lcgSequence = new SequenceFromLcg64(0);
+    for (let index = 0; index < PermutationArray.NUMBER_OF_LCG_INIT_STEPS; index++) {
+        lcgSequence.step();
+    }
+    ```
+
+    against [this Java](benchmarks/java/LcgInitialization.java#L5):
+
+    ```java
+    long seed = 0L;
+    seed = seed * 6364136223846793005l + 1442695040888963407l;
+    seed = seed * 6364136223846793005l + 1442695040888963407l;
+    seed = seed * 6364136223846793005l + 1442695040888963407l;
+    ```
+    In general, I usually gave Java the benefit of the doubt when it came to slimming the code down.
 
 ## Motivation
 
@@ -51,6 +82,7 @@ Once all of these are finished, I'll release `v1`. Until then, `v0` should be us
 |    100% | Build and document an implementation of the LCG used in `OpenSimplexNoise.java` |
 |    100% | Duplicate the LCG's output (and `long` manipulation) |
 |    100% | Duplicate the `[0, 255]` permutation for 2D, 3D, and 4D |
+|     20% | Benchmarks against Java version |
 |      0% | Publish package on `npm` |
 |      0% | Switch defaults (branch, badges) from `master` to `dev` |
 |      0% | Add fancy `README` TOC |
@@ -62,6 +94,6 @@ These are things I'd like to add, but probably won't be included in `v1`. If not
 | Progess | Feature |
 | ------: | ------- |
 |      0% | Find FOSS linear congruential generator parameters. |
-|      0% | Benchmarks |
 |      0% | Break out LCG code into its own repo |
 |      0% | Implement [reverse LCG](https://stackoverflow.com/a/16630535) |
+|      0% | Tests against the original Java |
