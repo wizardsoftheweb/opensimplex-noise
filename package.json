@@ -6,7 +6,8 @@
   "scripts": {
     "benchmark": "cross-env node_modules/.bin/ts-node benchmarks/benchmarks",
     "test": "cross-env NODE_ENV=test nyc mocha",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "build:docs": "typedoc --exclude \"!**/src/**/*.ts\" --out ./docs/ --readme \"none\" --mode file --module \"commonjs\" --gitRevision \"dev\""
   },
   "author": "CJ Harries <cj@wizardsoftheweb.pro> (https://wizardsoftheweb.pro/)",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "sinon": "^3.2.1",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
+    "typedoc": "^0.8.0",
     "typescript": "^2.4.2",
     "winston": "^2.3.1"
   },
