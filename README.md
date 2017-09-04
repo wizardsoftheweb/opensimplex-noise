@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/wizardsoftheweb/opensimplex-noise.svg?branch=dev)](https://travis-ci.org/wizardsoftheweb/opensimplex-noise) [![Coverage Status](https://coveralls.io/repos/github/wizardsoftheweb/opensimplex-noise/badge.svg?branch=dev)](https://coveralls.io/github/wizardsoftheweb/opensimplex-noise?branch=dev)
 
+<!-- toc -->
+<!-- tocstop -->
+
 This is a fairly straight-forward implementation of Kurt Spencer's [OpenSimplex Noise](http://uniblock.tumblr.com/post/97868843242/noise) (original [Java implementation](https://gist.github.com/KdotJPG/b1270127455a94ac5d19)). I started this project intending to build a simplex noise generator but then I remembered that Ken Perlin is a patent troll.
 
 ## Important Notes

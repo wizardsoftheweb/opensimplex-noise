@@ -23,6 +23,7 @@
     "chai": "^4.1.1",
     "coveralls": "^2.13.1",
     "cross-env": "^5.0.5",
+    "markdown-toc": "^1.1.0",
     "microtime": "^2.1.6",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
