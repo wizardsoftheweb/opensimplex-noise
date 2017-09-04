@@ -2,6 +2,10 @@
   "name": "@wizardsoftheweb/opensimplex-noise",
   "version": "0.1.0",
   "description": "JS OpenSimplex Noise Generator",
+  "engines": {
+    "node": ">=6",
+    "npm": ">=3"
+  },
   "main": "index.js",
   "scripts": {
     "benchmark": "cross-env node_modules/.bin/ts-node benchmarks/benchmarks",
@@ -9,8 +13,26 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build:docs": "typedoc --exclude \"!**/src/**/*.ts\" --out ./docs/ --readme \"none\" --mode file --module \"commonjs\" --gitRevision \"dev\""
   },
-  "author": "CJ Harries <cj@wizardsoftheweb.pro> (https://wizardsoftheweb.pro/)",
+  "author": {
+    "name": "CJ Harries",
+    "email": "cj@wizardsoftheweb.pro",
+    "url": "https://wizardsoftheweb.pro/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wizardsoftheweb/opensimplex-noise.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wizardsoftheweb/opensimplex-noise/issues"
+  },
+  "homepage": "https://github.com/wizardsoftheweb/opensimplex-noise#readme",
   "license": "ISC",
+  "keywords": [
+    "opensimplex",
+    "simplex",
+    "noise",
+    "perlin"
+  ],
   "devDependencies": {
     "@types/bluebird": "^3.5.8",
     "@types/chai": "^4.0.4",
