@@ -4,6 +4,18 @@
 
 This is a fairly straight-forward implementation of Kurt Spencer's [OpenSimplex Noise](http://uniblock.tumblr.com/post/97868843242/noise) (original [Java implementation](https://gist.github.com/KdotJPG/b1270127455a94ac5d19)). I started this project intending to build a simplex noise generator but then I remembered that Ken Perlin is a patent troll.
 
+<!-- toc -->
+- [Important Notes](#important-notes)
+- [Installation](#installation)
+  * [Dev version](#dev-version)
+- [Usage](#usage)
+- [Benchmarks](#benchmarks)
+- [Motivation](#motivation)
+- [Roadmap](#roadmap)
+  * [Main Features](#main-features)
+  * [Eventual features](#eventual-features)
+<!-- tocstop -->
+
 ## Important Notes
 
 * **The root LCG might require a license.** I did a bunch of research about this. Given that OpenSimplex actually had to be created, I think it's important to maintain provenance. The constants used in OpenSimplex's [linear congruential generator](https://gist.github.com/KdotJPG/b1270127455a94ac5d19#file-opensimplexnoise-java-L58) come from [Donald Knuth's MMIX implementation](https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use) (although [searching "6364136223846793005l"](https://www.google.com/search?q=6364136223846793005l) yields Minecraft code and threads about OpenSimplex; the `long` suffix dramatically reduces the results). Given that it's on Wikipedia (and in Minecraft), I'm going to assume the numbers themselves are not licensed. If you're not comfortable making that assumption, I'll (eventually) add support to change the LCG (or you can make a PR with open source constants, which would be pretty neat).
@@ -21,6 +33,43 @@ npm install --save git+https://github.com/wizardsoftheweb/opensimplex-noise
 ## Usage
 
 TODO: write documentation after the API is done
+
+## Benchmarks
+
+```bash
+npm run benchmark
+```
+
+I've tried to pull out specific sections of [the original](docs/OpenSimplexNoise.java) to compare against the TypeScript implementations.
+
+* The benchmarks require Java, i.e.
+    ```bash
+    which javac
+    # some non-empty path
+    which java
+    # some non-empty path
+    ```
+    For testing, I've been using `openjdk-8-jdk` on `Ubuntu 16.04.2 LTS` via `Windows 10 Pro`. I will eventually move this out of my gaming environment and into my work environment so that I can run real comparisons, but that's far enough in the future I'm not even including it in the roadmap. Yet.
+* Benchmarks are slightly silly. Your benchmark is going to be different than mine. Don't use the results as objective proof of superiority, because they're not. I'm an average coder writing in a transpiled interpreted language not built to handle `long`s natively, so you should expect the Java version to run better. However, Java is an interpreted language, so this code could be occasionally faster.
+* For the most part, the TypeScript hasn't been optimized. I have no doubt there's a ton of inefficient code slowing things down.
+* I tried to make things one-to-one. For example, while comparing the LCG initialization, I run [this TypeScript](benchmarks/benchmarks.ts#L34):
+
+    ```javascript
+    const lcgSequence = new SequenceFromLcg64(0);
+    for (let index = 0; index < PermutationArray.NUMBER_OF_LCG_INIT_STEPS; index++) {
+        lcgSequence.step();
+    }
+    ```
+
+    against [this Java](benchmarks/java/LcgInitialization.java#L5):
+
+    ```java
+    long seed = 0L;
+    seed = seed * 6364136223846793005l + 1442695040888963407l;
+    seed = seed * 6364136223846793005l + 1442695040888963407l;
+    seed = seed * 6364136223846793005l + 1442695040888963407l;
+    ```
+    In general, I usually gave Java the benefit of the doubt when it came to slimming the code down.
 
 ## Motivation
 
@@ -45,9 +94,10 @@ Once all of these are finished, I'll release `v1`. Until then, `v0` should be us
 |    100% | Build and document an implementation of the LCG used in `OpenSimplexNoise.java` |
 |    100% | Duplicate the LCG's output (and `long` manipulation) |
 |    100% | Duplicate the `[0, 255]` permutation for 2D, 3D, and 4D |
+|     20% | Benchmarks against Java version |
 |      0% | Publish package on `npm` |
 |      0% | Switch defaults (branch, badges) from `master` to `dev` |
-|      0% | Add fancy `README` TOC |
+|     80% | Add fancy `README` TOC |
 
 ### Eventual features
 
@@ -56,6 +106,6 @@ These are things I'd like to add, but probably won't be included in `v1`. If not
 | Progess | Feature |
 | ------: | ------- |
 |      0% | Find FOSS linear congruential generator parameters. |
-|      0% | Benchmarks |
 |      0% | Break out LCG code into its own repo |
 |      0% | Implement [reverse LCG](https://stackoverflow.com/a/16630535) |
+|      0% | Tests against the original Java |
