@@ -15,6 +15,7 @@ test/**/*.map
 .nyc_output
 coverage
 logs
+docs
 # Personal working files (you might not need these)
 scratch.ts
 swap-out.log
