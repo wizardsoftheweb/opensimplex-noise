@@ -19,7 +19,7 @@ This is a fairly straight-forward implementation of Kurt Spencer's [OpenSimplex 
 ## Important Notes
 
 * **The root LCG might require a license.** I did a bunch of research about this. Given that OpenSimplex actually had to be created, I think it's important to maintain provenance. The constants used in OpenSimplex's [linear congruential generator](https://gist.github.com/KdotJPG/b1270127455a94ac5d19#file-opensimplexnoise-java-L58) come from [Donald Knuth's MMIX implementation](https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use) (although [searching "6364136223846793005l"](https://www.google.com/search?q=6364136223846793005l) yields Minecraft code and threads about OpenSimplex; the `long` suffix dramatically reduces the results). Given that it's on Wikipedia (and in Minecraft), I'm going to assume the numbers themselves are not licensed. If you're not comfortable making that assumption, I'll (eventually) add support to change the LCG (or you can make a PR with open source constants, which would be pretty neat).
-* Using a 64-bit LCG requires external libraries. I might look at 32-bit generator later.
+* External libraries possibly necessary. JavaScript doesn't handle 64-bit integers natively. I might look at 32-bit generator later. I've got [`Bluebird`](https://www.npmjs.com/package/bluebird) in the production dependencies for now because I'd like to include `Bluebird` ([`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) with [`.finally`](http://bluebirdjs.com/docs/api/finally.html) and sequential execution via [`.each`](http://bluebirdjs.com/docs/api/each.html)) support eventually, but I might also strip it. We'll see.
 
 ## Installation
 
@@ -36,11 +36,11 @@ TODO: write documentation after the API is done
 
 ## Benchmarks
 
+I've tried to pull out specific sections of [the original](docs/OpenSimplexNoise.java) to compare against the TypeScript versions, in part to see where the TypeScript might need improvement.
+
 ```bash
 npm run benchmark
 ```
-
-I've tried to pull out specific sections of [the original](docs/OpenSimplexNoise.java) to compare against the TypeScript implementations.
 
 * The benchmarks require Java, i.e.
     ```bash
@@ -109,3 +109,4 @@ These are things I'd like to add, but probably won't be included in `v1`. If not
 |      0% | Break out LCG code into its own repo |
 |      0% | Implement [reverse LCG](https://stackoverflow.com/a/16630535) |
 |      0% | Tests against the original Java |
+|      0% | Determine `Bluebird` usage or move it to `devDependencies` |
