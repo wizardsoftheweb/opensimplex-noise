@@ -4,7 +4,7 @@
 
 This is a fairly straight-forward implementation of Kurt Spencer's [OpenSimplex Noise](http://uniblock.tumblr.com/post/97868843242/noise) (original [Java implementation](https://gist.github.com/KdotJPG/b1270127455a94ac5d19)). I started this project intending to build a simplex noise generator but then I remembered that Ken Perlin is a patent troll.
 
-<!-- toc -->
+<!-- MarkdownTOC -->
 - [Important Notes](#important-notes)
 - [Installation](#installation)
   * [Dev version](#dev-version)
@@ -14,7 +14,7 @@ This is a fairly straight-forward implementation of Kurt Spencer's [OpenSimplex 
 - [Roadmap](#roadmap)
   * [Main Features](#main-features)
   * [Eventual features](#eventual-features)
-<!-- tocstop -->
+<!-- MarkdownTOC -->
 
 ## Important Notes
 
